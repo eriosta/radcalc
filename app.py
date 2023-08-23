@@ -57,12 +57,12 @@ m_values = [st.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, 5
 a_values = [st.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, 5)]
 
 if st.button('Calculate FSM'):
-    if sum(a_values) == 0:
-        st.error("Sum of ROI areas cannot be zero!")
-    else:
+    if all(a != 0 for a in a_values):
         fsm = calculate_fsm(m_values, a_values)
         st.write(f"FSM: {fsm} kPa")
         st.write(fsm_grading(fsm))
+    else:
+        st.error("All ROI areas must be non-zero!")
 
 # Determine Steatosis Grade
 st.header('Determine Steatosis Grade')
