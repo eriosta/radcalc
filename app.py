@@ -51,47 +51,37 @@ def fsm_grading(fsm):
 
 st.title('MR Elastography App')
 
+st.sidebar.header('Navigation')
+nav_selection = st.sidebar.radio('', ['Calculate FSM', 'Determine Steatosis Grade', 'Calculate LIC'])
+
 # Calculate FSM
-st.header('Calculate FSM')
-
-m_values = []
-a_values = []
-
-for i in range(1, 5):
+if nav_selection == 'Calculate FSM':
+    st.header('Calculate FSM')
     col1, col2 = st.beta_columns(2)
-    m = col1.number_input(f'Enter ROI{i} LSM:', value=0.0)
-    a = col2.number_input(f'Enter ROI{i} area:', value=0.0)
-    m_values.append(m)
-    a_values.append(a)
-
-if st.button('Calculate FSM'):
-    if all(a != 0 for a in a_values):
-        fsm = calculate_fsm(m_values, a_values)
-        st.write(f"FSM: {fsm} kPa")
-        st.write(fsm_grading(fsm))
-    else:
-        st.error("All ROI areas must be non-zero!")
+    m_values = [col1.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, 5)]
+    a_values = [col2.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, 5)]
+    if st.button('Calculate FSM'):
+        if all(a != 0 for a in a_values):
+            fsm = calculate_fsm(m_values, a_values)
+            st.write(f"FSM: {fsm} kPa")
+            st.write(fsm_grading(fsm))
+        else:
+            st.error("All ROI areas must be non-zero!")
 
 # Determine Steatosis Grade
-st.header('Determine Steatosis Grade')
-percentage = st.slider('Enter PDFF:', min_value=0.0, max_value=100.0, value=0.0)
-if st.button('Calculate Steatosis Grade'):
-    st.write(fat_grading(percentage))
+elif nav_selection == 'Determine Steatosis Grade':
+    st.header('Determine Steatosis Grade')
+    percentage = st.number_input('Enter PDFF (%):', min_value=0.0, max_value=100.0, value=0.0)
+    if st.button('Calculate Steatosis Grade'):
+        st.write(fat_grading(percentage))
 
 # Calculate LIC
-st.header('Calculate LIC')
-T_values = ['1.5 T', '2.89 T', '3.0 T']
-T_value = st.selectbox('Select MR:', T_values)
-X = st.number_input('Enter R2* Value:', value=0.0)
-
-if st.button('Calculate LIC'):
-    Y = calculate_iron(T_value, X)
-    st.write(f"LIC: {Y} mg/g")
-    st.write(iron_grading(Y))
-
-# Clear results
-st.header('Clear Results')
-if st.button('Clear'):
-    st.experimental_rerun()
-
-    
+elif nav_selection == 'Calculate LIC':
+    st.header('Calculate LIC')
+    T_values = ['1.5 T', '2.89 T', '3.0 T']
+    T_value = st.selectbox('Select MR:', T_values)
+    X = st.number_input('Enter R2* Value:', value=0.0)
+    if st.button('Calculate LIC'):
+        Y = calculate_iron(T_value, X)
+        st.write(f"LIC: {Y} mg/g")
+        st.write(iron_grading(Y))
