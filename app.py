@@ -31,7 +31,11 @@ def fat_grading(percentage):
         return "Grade 3: Severe steatosis."
 
 def calculate_fsm(m_values, a_values):
-    return sum([m*a for m,a in zip(m_values, a_values)]) / sum(a_values)
+    total_area = sum(a_values)
+    if total_area == 0:
+        return 0  # or whatever default or error value you want to return
+    else:
+        return sum([m*a for m,a in zip(m_values, a_values)]) / total_area
 
 def fsm_grading(fsm):
     if fsm < 2.5:
@@ -81,3 +85,5 @@ if st.button('Calculate LIC'):
 st.header('Clear Results')
 if st.button('Clear'):
     st.experimental_rerun()
+
+    
