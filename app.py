@@ -1,24 +1,4 @@
 import streamlit as st
-from docx import Document
-from io import BytesIO
-
-def generate_report(T_value, X, Y, percentage, fsm, m_values):
-    # Create a new document
-    doc = Document()
-
-    # Populate the report content
-    doc.add_heading('PROCEDURE', level=1)
-    doc.add_paragraph(f"{st.text_input('Input Procedure:', 'GRE/SE EPI')} MR elastography and chemical shift-encoded GRE sequences were performed for liver fibrosis, fat, and iron quantification on a {T_value} Tesla scanner.")
-    
-    doc.add_heading('MR Liver Elastography', level=1)
-    doc.add_paragraph(f"Mean liver stiffness (weighted mean of {len(m_values)} measurements): {fsm:.2f} kPa (range {min(m_values):.2f} – {max(m_values):.2f} kPa).")
-    doc.add_paragraph("Interpretation of MR elastography results. Mean LSM:")
-    # ... add the rest of the content similarly ...
-    
-    # Create an in-memory binary stream to save doc to
-    stream = BytesIO()
-    doc.save(stream)
-    return stream
 
 def calculate_iron(T_value, X):
     if T_value == '1.5 T':
@@ -101,15 +81,3 @@ if st.button('Calculate LIC'):
 st.header('Clear Results')
 if st.button('Clear'):
     st.experimental_rerun()
-
-# Section to generate report
-st.header('Generate Report')
-if st.button('Generate Report'):
-    stream = generate_report(T_value, X, Y, percentage, fsm, m_values)
-    buf = BytesIO(stream.getvalue())
-    st.download_button(
-        label="Download Report",
-        data=buf,
-        file_name='MRElastographyReport.docx',
-        mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    )
