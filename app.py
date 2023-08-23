@@ -57,7 +57,7 @@ nav_selection = st.sidebar.radio('', ['Calculate FSM', 'Determine Steatosis Grad
 # Calculate FSM
 if nav_selection == 'Calculate FSM':
     st.header('Calculate FSM')
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)  # Corrected here
     m_values = [col1.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, 5)]
     a_values = [col2.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, 5)]
     if st.button('Calculate FSM'):
