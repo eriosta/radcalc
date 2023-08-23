@@ -10,69 +10,71 @@ def calculate_iron(T_value, X):
 
 def iron_grading(Y):
     if Y < 1.8:
-        return "Grade 0: Normal"
+        return "Grade 0: Normal. No Fe overload."
     elif 1.8 <= Y <= 3.2:
-        return "Grade 1: Mild iron overload"
+        return "Grade 1: Mild Fe overload."
     elif 3.2 <= Y <= 7:
-        return "Grade 2: Moderate Fe overload"
+        return "Grade 2: Moderate Fe overload."
     elif 7 <= Y <= 15:
-        return "Grade 3: Severe Fe overload"
+        return "Grade 3: Severe Fe overload."
     else:
-        return "Grade 4: Extreme Fe overload"
+        return "Grade 4: Extreme Fe overload."
 
 def fat_grading(percentage):
     if percentage < 5:
-        return "Grade 0: Normal"
+        return "Grade 0: Normal. No steatosis."
     elif 5 <= percentage <= 17:
-        return "Grade 1: Mild steatosis"
+        return "Grade 1: Mild steatosis."
     elif 17 <= percentage <= 22:
-        return "Grade 2: Moderate steatosis"
+        return "Grade 2: Moderate steatosis."
     else:
-        return "Grade 3: Severe steatosis"
+        return "Grade 3: Severe steatosis."
 
 def calculate_fsm(m_values, a_values):
     return sum([m*a for m,a in zip(m_values, a_values)]) / sum(a_values)
 
 def fsm_grading(fsm):
     if fsm < 2.5:
-        return "Nl or chronic inflammation"
+        return "Normal or chronic inflammation"
     elif 2.5 <= fsm <= 3.0:
-        return "Stage 1-2"
+        return "Stage 1-2 fibrosis."
     elif 3.0 <= fsm <= 3.5:
-        return "Stage 2-3"
+        return "Stage 2-3 fibrosis."
     elif 3.5 <= fsm <= 4.0:
-        return "Stage 3-4"
+        return "Stage 3-4 fibrosis."
     else:
-        return "Stage 4-5"
+        return "Stage 4-5 fibrosis."
 
-st.title('Health Grading App')
+st.title('MR Elastography App')
 
-# Calculate Iron
-st.header('1) Calculate Iron')
-T_values = ['1.5 T', '2.89 T', '3.0 T']
-T_value = st.selectbox('Select T Value:', T_values)
-X = st.number_input('Enter X Value:', value=0.0)
-Y = calculate_iron(T_value, X)
-st.write(f"Y value: {Y}")
-st.write(iron_grading(Y))
+# Sidebar for navigation
+options = ['FSM Calculation', 'Steatosis Grade', 'LIC Calculation', 'Clear Results']
+choice = st.sidebar.selectbox('Choose an option:', options)
 
-# Determine Fat Grading
-st.header('2) Determine Fat Grading')
-percentage = st.slider('Enter Fat Percentage:', min_value=0.0, max_value=100.0, value=0.0)
-st.write(fat_grading(percentage))
+# Depending on the user's choice, display the corresponding section
+if choice == 'FSM Calculation':
+    st.header('Calculate FSM')
+    m_values = [st.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, 5)]
+    a_values = [st.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, 5)]
+    fsm = calculate_fsm(m_values, a_values)
+    st.write(f"FSM: {fsm} kPa")
+    st.write(fsm_grading(fsm))
 
-# Calculate the FSM
-st.header('3) Calculate FSM')
-m_values = [st.number_input(f'Enter roi{i}lsm Value:', value=0.0) for i in range(1, 5)]
-a_values = [st.number_input(f'Enter roi{i}a Value:', value=0.0) for i in range(1, 5)]
-fsm = calculate_fsm(m_values, a_values)
-st.write(f"FSM Value: {fsm}")
-st.write(fsm_grading(fsm))
+elif choice == 'Steatosis Grade':
+    st.header('Determine Steatosis Grade')
+    percentage = st.slider('Enter PDFF:', min_value=0.0, max_value=100.0, value=0.0)
+    st.write(fat_grading(percentage))
 
-# Clear results
-st.header('4) Clear Results')
-if st.button('Clear'):
-    st.experimental_rerun()
+elif choice == 'LIC Calculation':
+    st.header('Calculate LIC')
+    T_values = ['1.5 T', '2.89 T', '3.0 T']
+    T_value = st.selectbox('Select MR:', T_values)
+    X = st.number_input('Enter R2* Value:', value=0.0)
+    Y = calculate_iron(T_value, X)
+    st.write(f"LIC: {Y} mg/g")
+    st.write(iron_grading(Y))
 
-if __name__ == "__main__":
-    st.write('Welcome to the Health Grading App!')
+elif choice == 'Clear Results':
+    st.header('Clear Results')
+    if st.button('Clear'):
+        st.experimental_rerun()
