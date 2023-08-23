@@ -53,8 +53,16 @@ st.title('MR Elastography App')
 
 # Calculate FSM
 st.header('Calculate FSM')
-m_values = [st.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, 5)]
-a_values = [st.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, 5)]
+
+m_values = []
+a_values = []
+
+for i in range(1, 5):
+    col1, col2 = st.beta_columns(2)
+    m = col1.number_input(f'Enter ROI{i} LSM:', value=0.0)
+    a = col2.number_input(f'Enter ROI{i} area:', value=0.0)
+    m_values.append(m)
+    a_values.append(a)
 
 if st.button('Calculate FSM'):
     if all(a != 0 for a in a_values):
