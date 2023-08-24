@@ -2,14 +2,44 @@ import streamlit as st
 import io
 import base64
 import pandas as pd
+import datetime
+import matplotlib.pyplot as plt
+import numpy as np
 
-def calculate_iron(T_value, X):
-    if T_value == '1.5 T':
-        return 2.603E-2 * X - 0.16
-    elif T_value == '2.89 T':
-        return 1.400E-2 * X - 0.03
-    elif T_value == '3.0 T':
-        return 1.349E-2 * X - 0.03
+
+# Define parameters for each MR type
+params = {
+    '1.5 T': {'intercept': -0.16, 'slope': 2.603e-2, 'r2': 0.88, 'conf_intercept': (-.64, 0.32), 'conf_slope': (2.468e-2, 2.738e-2)},
+    '2.89 T': {'intercept': -0.03, 'slope': 1.400e-2, 'r2': 0.93, 'conf_intercept': (-.51, .45), 'conf_slope': (1.33e-2, 1.471e-2)},
+    '3.0 T': {'intercept': -0.03, 'slope': 1.349e-2, 'r2': 0.87, 'conf_intercept': (-.51, .45), 'conf_slope': (1.282e-2, 1.417e-2)}
+}
+
+# Calculate LIC
+def calculate_iron(T_value, R2_star):
+    return round(params[T_value]['intercept'] + params[T_value]['slope'] * R2_star,1)
+
+# Plot LIC with confidence intervals
+def plot_LIC(T_value, R2_value, LIC):
+    x = np.linspace(0, max(100, R2_value+10), 100)
+    y = params[T_value]['intercept'] + params[T_value]['slope'] * x
+    y_lower = params[T_value]['conf_intercept'][0] + params[T_value]['conf_slope'][0] * x
+    y_upper = params[T_value]['conf_intercept'][1] + params[T_value]['conf_slope'][1] * x
+
+    plt.figure(figsize=(10,6))
+    plt.plot(x, y, label='Regression Line', color='blue')
+    plt.fill_between(x, y_lower, y_upper, color='blue', alpha=0.1, label='Confidence Interval')
+    plt.scatter(R2_value, LIC, color='red', label='Input R2* Value')
+    plt.xlabel('R2* (/s)')
+    plt.ylabel('LIC (mg/g)')
+    plt.title(f'LIC Visualization for {T_value}')
+    
+    # Annotating the formula/line of best fit on the top left
+    formula_text = f"LIC = {params[T_value]['intercept']:.2f} + {params[T_value]['slope']:.4f} * R2*"
+    plt.annotate(formula_text, (0.05, 0.95), xycoords='axes fraction', fontsize=10, verticalalignment='top', bbox=dict(boxstyle="square,pad=0.3", facecolor="white", edgecolor="black"))
+
+    plt.legend()
+    plt.grid(True)
+    st.pyplot(plt.gcf())
 
 def iron_grading(Y):
     if Y < 1.8:
@@ -38,7 +68,8 @@ def calculate_fsm(m_values, a_values):
     if total_area == 0:
         return 0  # or whatever default or error value you want to return
     else:
-        return sum([m*a for m,a in zip(m_values, a_values)]) / total_area
+        result = sum([m*a for m,a in zip(m_values, a_values)]) / total_area
+        return round(result, 1)
 
 def fsm_grading(fsm_value):
     if fsm_value < 2.5:
@@ -124,7 +155,8 @@ elif nav_selection == 'Determine Steatosis Grade':
 elif nav_selection == 'Calculate LIC':
     st.header('Calculate LIC')
     T_values = ['1.5 T', '2.89 T', '3.0 T']
-    T_value = st.selectbox('Select MR:', T_values)
+    default_T_value = T_values.index('3.0 T')  # Index for '3.0 T'
+    T_value = st.selectbox('Select MR:', T_values, index=default_T_value)
     X = st.number_input('Enter R2* Value:', value=0.0)
     if st.button('Calculate LIC'):
         Y = calculate_iron(T_value, X)
@@ -132,8 +164,10 @@ elif nav_selection == 'Calculate LIC':
         st.session_state['R2_value'] = X
         st.session_state['LIC'] = Y
         st.session_state['iron_grade'] = iron_grading(Y)
-        st.write(f"LIC: {Y} mg/g")
+        st.write(f"LIC: {Y:.2f} mg/g")
         st.write(iron_grading(Y))
+        st.write(f"R^2 for {T_value}: {params[T_value]['r2']}")
+        plot_LIC(T_value, X, Y)
 
 # Generate Report
 elif nav_selection == 'Generate Report':
@@ -141,10 +175,12 @@ elif nav_selection == 'Generate Report':
     
     # Select Sequence and Tesla scanner
     sequence_options = ['GRE', 'SE EPI']
-    selected_sequence = st.selectbox('Select Sequence:', sequence_options)
+    default_sequence = sequence_options.index('SE EPI')  # Index for 'SE EPI'
+    selected_sequence = st.selectbox('Select Sequence:', sequence_options, index=default_sequence)
     
     scanner_options = ['1.5', '3.0', '2.89']
-    selected_scanner = st.selectbox('Select Tesla scanner:', scanner_options)
+    default_scanner = scanner_options.index('3.0')  # Index for '3.0'
+    selected_scanner = st.selectbox('Select Tesla scanner:', scanner_options, index=default_scanner)
 
     # Retrieve FSM values and grading
     fsm = st.session_state.get('fsm', 'N/A')
@@ -162,29 +198,21 @@ elif nav_selection == 'Generate Report':
     LIC = st.session_state.get('LIC', 'N/A')
     iron_grade = st.session_state.get('iron_grade', 'N/A')
 
+
     # Generate the report content
     st.header('Report:')
-    report = f"""
-PROCEDURE: {selected_sequence} MR elastography and chemical shift-encoded GRE sequences were performed for liver fibrosis, fat, and iron quantification on a {selected_scanner} Tesla scanner.
+    report = f"""PROCEDURE: {selected_sequence} MR elastography and chemical shift-encoded GRE sequences were performed for liver fibrosis, fat, and iron quantification on a {selected_scanner} Tesla scanner.\n\nLIVER ELASTOGRAPHY: Mean liver stiffness (weighted mean of [{fsm_min} - {fsm_max}] measurements): {fsm} kPa. Interpretation of MR elastography results: {fsm_grade}.\n\nLIVER FAT FRACTION: In representative areas of the liver, the mean proton density fat-fraction (PDFF) is {steatosis_percentage}%. Histological grade: {steatosis_grade}.\n\nLIVER IRON CONTENT: In representative areas of the liver, the mean transverse relaxation rate R2* is {R2_value}/s at {MR_type}, corresponding to a liver iron concentration (LIC) of {LIC} mg Fe/g. Iron overload severity grade: {iron_grade}."""
 
-MR Liver Elastography
-Mean liver stiffness (weighted mean of [{fsm_min} - {fsm_max}] measurements): {fsm} kPa
-Interpretation of MR elastography results: {fsm_grade}
+    # Display the report in a text area
+    st.text_area("Report Content:", value=report, height=400, max_chars=None)  # Adjust the height as required
 
-MR Liver Fat Quantification
-In representative areas of the liver, the mean proton density fat-fraction (PDFF) is {steatosis_percentage}%.
-Histological grade: {steatosis_grade}
+    # Generate the current date and time and format it to a string
+    current_datetime = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    filename = f"MR_LIVER_ELASTOGRAPHY_{current_datetime}.txt"
 
-MR Liver Iron Quantification
-In representative areas of the liver, the mean transverse relaxation rate R2* is {R2_value}/s at {MR_type}, corresponding to a liver iron concentration (LIC) of {LIC} mg Fe/g.
-Iron overload severity grade: {iron_grade}
-"""
-
-    st.markdown(report) # using markdown to display the report with formatting
-    
     # Create a download link for the report
     download_link_text = "Download Report"
-    st.markdown(download_link(report, "MRElastography_Report.txt", download_link_text), unsafe_allow_html=True)
+    st.markdown(download_link(report, filename, download_link_text), unsafe_allow_html=True)
 
 
 # References Section
