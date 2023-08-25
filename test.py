@@ -70,7 +70,7 @@ if st.download_button("Download Report", data=report, file_name=filename, mime="
 
 # Glossary Section
 st.write("### Glossary")
-glossary = """ABER = abduction and external rotation\n\nGTW = glenoid track width\n\nHSI = Hill-Sachs interval\n\nHSL = Hill-Sachs lesion\n\nMPR = multiplanar reformation\n\nZTE = zero echo time\n\n
+glossary = """ABER = abduction and external rotation\n\nGTW = glenoid track width. GTW is defined as 83% of the glenoid diameter on the glenohumeral joint surface.\n\nHSI = Hill-Sachs interval\n\nHSL = Hill-Sachs lesion. The measure of how medially the HSL is positioned on the humeral head is the Hill-Sachs interval (HSI), which denotes the distance along the short axis of the HSL between the innermost point of the HSL on the humeral head joint surface and the medial edge of the rotator cuff tendon footprint at the greater tubercle.\n\nMPR = multiplanar reformation\n\nZTE = zero echo time. ZTE MR generates CT-like images used to evaluate for traumatic bipolar bone loss and GTW. \n\n
 """
 st.write(glossary)
 
