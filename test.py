@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import datetime
 
 class GlenoidTrackAssessment:
     def __init__(self, D=0, d=0, HSI=0):
@@ -16,13 +17,7 @@ class GlenoidTrackAssessment:
             return "on track"
 
     def produce_radiology_report(self, GTW):
-        report = f"""
-        Glenoid Diameter: {self.D}
-        Glenoid Rim Defect: {self.d}
-        GTW: {GTW}
-        GTW Formula Used: GTW = (0.83 x D) - d
-        HSI: {self.HSI}
-        HSL Tracking Status: {self.determine_tracking_status(GTW)}
+        report = f"""Glenoid Diameter: {self.D}\n\nGlenoid Rim Defect: {self.d}\n\nGTW: {GTW}\n\nGTW Formula Used: GTW = (0.83 x D) - d\n\nHSI: {self.HSI}\n\nHSL Tracking Status: {self.determine_tracking_status(GTW)}
         """
         return report
 
@@ -62,8 +57,23 @@ st.write("### Step 4: Determine tracking status of HSL")
 status = assessment.determine_tracking_status(GTW)
 st.write(f"The HSL is {status}.")
 
-st.write("### Step 5: Produce Radiology Report")
-st.write(assessment.produce_radiology_report(GTW))
+st.write("### Step 5: Radiology Report")
+report = assessment.produce_radiology_report(GTW)
+st.text_area("Report", report, height=400)  # Display the report in a text area
 
-if st.button("Generate Report"):
-    st.write("Report Generated Successfully!")
+# Create the filename with current date and time
+current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+filename = f"Radiology_Report_{current_time}.txt"
+
+if st.download_button("Download Report", data=report, file_name=filename, mime="text/plain"):
+    st.write("Report Downloaded Successfully!")
+
+# Glossary Section
+st.write("### Glossary")
+glossary = """ABER = abduction and external rotation\n\nGTW = glenoid track width\n\nHSI = Hill-Sachs interval\n\nHSL = Hill-Sachs lesion\n\nMPR = multiplanar reformation\n\nZTE = zero echo time\n\n
+"""
+st.write(glossary)
+
+# References
+st.write("### References")
+st.write("""Aydıngöz Ü, Yıldız AE, Huri G. Glenoid Track Assessment at Imaging in Anterior Shoulder Instability: Rationale and Step-by-Step Guide. Radiographics. 2023 Aug;43(8):e230030. doi: 10.1148/rg.230030. PMID: 37410625.""")
