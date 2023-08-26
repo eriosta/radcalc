@@ -11,16 +11,21 @@ def determine_grade():
     active_bleeding = st.radio("Active bleeding", ["Confined active parenchymal active bleeding", "active bleeding extending to peritoneum", "None of these"], key="active_bleeding")
     shattered_spleen = st.radio("Shattered spleen", ["Present", "Absent"], key="shattered_spleen")
 
-    if laceration == "<1 cm" and subscap_hematoma == "<10% surface area":
-        grade = "I"
-    elif laceration == "1-3 cm" and subscap_hematoma == "10-50%" and intraparenchymal_hematoma == "<5 cm":
-        grade = "II"
-    elif laceration == "greater than 3 cm" and subscap_hematoma == "greater than 50%" and intraparenchymal_hematoma == "greater than or equal to 5 cm":
-        grade = "III"
+    # Check for Grade V criteria first
+    if active_bleeding == "active bleeding extending to peritoneum" or shattered_spleen == "Present":
+        grade = "V"
+    # Then, check for Grade IV
     elif devascularization == "25-75%" or vascular_injury == "Present" or active_bleeding == "Confined active parenchymal active bleeding":
         grade = "IV"
-    elif active_bleeding == "active bleeding extending to peritoneum" or shattered_spleen == "Present":
-        grade = "V"
+    # Then Grade III
+    elif laceration == "greater than 3 cm" and subscap_hematoma == "greater than 50%" and intraparenchymal_hematoma == "greater than or equal to 5 cm":
+        grade = "III"
+    # Then Grade II
+    elif laceration == "1-3 cm" and subscap_hematoma == "10-50%" and intraparenchymal_hematoma == "<5 cm":
+        grade = "II"
+    # Finally, Grade I
+    elif laceration == "<1 cm" and subscap_hematoma == "<10% surface area":
+        grade = "I"
 
     return grade
 
