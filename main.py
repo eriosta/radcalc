@@ -7,21 +7,20 @@ def main():
     st.sidebar.title("Navigation")
 
     # Replace radio with selectbox
-    choice = st.sidebar.selectbox("Choose the calculation", ["Home", 
+    choice = st.sidebar.selectbox("Choose the calculation", ["RADCalc", 
                                                      "MR Liver Elastography (MRE)",
                                                       "Glenoid Track Assessment (Hill-Sachs Lesion)",
                                                       "Grading Abdominal Trauma (2018 AAST-OIS)"
                                                       ])
 
-    if choice == "Home":
+    if choice == "RADCalc":
         st.title("Welcome to RADCalc!")
         st.write("""
-        This application provides two primary functionalities:
-        1. **MR Liver Elastography:** Description or brief instruction about this functionality.
-        2. **Glenoid Track Assessment:** Description or brief instruction about this functionality.
-        3. **Grading Abdominal Trauma:** 2018 AAST-OIS for the Spleen, Liver, and Kidney.
-        
-        Please select an option from the sidebar to proceed.
+                 Hey there! Dive into RADCalc, inspired by top-tier studies from RSNA journals like Radiology and Radiographics. We've created this app with you in mind, making those often tedious radiology calculations a breeze.
+                 
+                 But RADCalc is more than just a calculator. It's your one-stop hub, bringing together essential references and resources. Whether you're reading cases or sharing insights in a teaching session, RADCalc ensures you're equipped with the best tools.
+                 
+                 Please select an option from the sidebar to proceed.
         """)
 
         # Adding a disclaimer
