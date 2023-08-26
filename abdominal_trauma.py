@@ -1,5 +1,5 @@
 import streamlit as st
-
+    
 def spleen_grading():
     def determine_grade():
         grade = None
@@ -77,15 +77,16 @@ def kidney_grading():
     st.title("Kidney Grading System")
     st.write("Kidney grading system coming soon...")
 
-# Sidebar navigation
-selection = st.sidebar.selectbox("Choose an organ:", ["Home", "Spleen", "Liver", "Kidneys"])
+def run():
+    # Sidebar navigation
+    selection = st.sidebar.selectbox("Choose an organ:", ["Home", "Spleen", "Liver", "Kidneys"])
 
-if selection == "Home":
-    st.title("Organ Grading System")
-    st.write("Welcome to the Organ Grading System. Select an organ from the sidebar to proceed.")
-elif selection == "Spleen":
-    spleen_grading()
-elif selection == "Liver":
-    liver_grading()
-elif selection == "Kidneys":
-    kidney_grading()
+    if selection == "Home":
+        st.title("Organ Grading System")
+        st.write("Welcome to the Organ Grading System. Select an organ from the sidebar to proceed.")
+    elif selection == "Spleen":
+        spleen_grading()
+    elif selection == "Liver":
+        liver_grading()
+    elif selection == "Kidneys":
+        kidney_grading()
