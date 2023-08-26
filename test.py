@@ -23,7 +23,9 @@ class GlenoidTrackAssessment:
 
 def run():
     # Streamlit app
-    st.title("Glenoid Track Assessment")
+    st.title("RADCalc")
+
+    st.header('Glenoid Track Assessment Calculator')
 
     st.write("### Objectives")
     st.write("""1. Guided Assessment of Anterior Shoulder Dislocation: The app provides a systematic and simplified step-by-step approach to identify bipolar bone lesions, calculate the Glenoid Track Width (GTW), and measure the Humeral Side Injury (HSI) as shown in Aydıngöz, et al. 2023. Radiographics.\n\n2. Determination and Reporting of HSL Tracking Status: Through user input and subsequent calculations, the app determines the tracking status of the Hill-Sachs lesion (HSL) as either "on track" or "off track," generating a brief radiology report that can be downloaded for documentation and sharing.""")
@@ -74,9 +76,6 @@ def run():
     # Create the filename with current date and time
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"Radiology_Report_{current_time}.txt"
-
-    if st.download_button("Download Report", data=report, file_name=filename, mime="text/plain"):
-        st.write("Report Downloaded Successfully!")
 
     # Glossary Section
     st.write("### Glossary")

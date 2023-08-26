@@ -101,7 +101,7 @@ def run():
 
     # Home Page
     if nav_selection == 'Home':
-        st.header('Welcome to MR Elastography App!')
+        st.header('MR Elastography Calculator')
         st.write("""
         This app helps with:
         - Calculating Liver Stiffness Measure (LSM)
