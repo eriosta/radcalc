@@ -37,10 +37,41 @@ def spleen_grading():
     else:
         st.write("No matching grade found according to the inputs provided.")
 
-
 def liver_grading():
+    def determine_liver_grade():
+        grade = None
+
+        lac = st.radio("Laceration", ["Less than 1 cm", "1-3 cm", "Greater than 3 cm"], key="lac")
+        subscap_hematoma = st.radio("Subscapular hematoma", ["Less than 10% surface area", "10-50%", "Greater than 50%"], key="subscap_hematoma_liver")
+        intraparenchymal_hemorrhage = st.radio("Intraparenchymal hemorrhage", ["Less than 10 cm", "Greater than 10 cm"], key="intraparenchymal_hemorrhage")
+        lobar_parenchymal_disruption = st.radio("Lobar parenchymal disruption", ["25-75%", "Greater than 75%"], key="lobar_parenchymal_disruption")
+        active_bleeding = st.radio("Active bleeding", ["Confined to liver", "Extending to peritoneum"], key="active_bleeding_liver")
+        venous_injury = st.radio("Venous injury (IVC/major hepatic veins)", ["Present", "Absent"], key="venous_injury")
+
+        # Grade V
+        if lobar_parenchymal_disruption == "Greater than 75%" and venous_injury == "Present":
+            grade = "V"
+        # Grade IV
+        elif lobar_parenchymal_disruption == "25-75%" and active_bleeding == "Extending to peritoneum":
+            grade = "IV"
+        # Grade III
+        elif intraparenchymal_hemorrhage == "Greater than 10 cm" and subscap_hematoma == "Greater than 50%":
+            grade = "III"
+        # Grade II
+        elif lac == "1-3 cm" and subscap_hematoma == "10-50%" and intraparenchymal_hemorrhage == "Less than 10 cm":
+            grade = "II"
+        # Grade I
+        elif lac == "Less than 1 cm" and subscap_hematoma == "Less than 10% surface area":
+            grade = "I"
+        
+        return grade
+
     st.title("Liver Grading System")
-    st.write("Liver grading system coming soon...")
+    grade = determine_liver_grade()
+    if grade:
+        st.write(f"The liver's grade is: Grade {grade}")
+    else:
+        st.write("No matching grade found according to the inputs provided.")
 
 def kidney_grading():
     st.title("Kidney Grading System")
