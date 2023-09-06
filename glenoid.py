@@ -62,15 +62,16 @@ def run():
         st.session_state['GTW'] = GTW
         status = assessment.determine_tracking_status(GTW)
         st.session_state['status'] = status
+        st.session_state['assessment'] = assessment  # Save assessment to session state
         st.write(f"The HSL is {status}.")
         # Display the status inside a makeshift box using markdown
         st.markdown(f"""<div style="background-color: #f0f0f5; padding: 10px; border-radius: 5px; border: 1px solid gray;"><h4 style="color: black; text-align: center;">The HSL is <strong>{status}</strong>.</h4></div>""", unsafe_allow_html=True)
     elif nav_selection == 'Step 5: Radiology Report':
-        if 'status' not in st.session_state:
+        if 'status' not in st.session_state or 'assessment' not in st.session_state:
             st.error("Please complete Step 4 before proceeding.")
             return
         st.write("### Step 5: Radiology Report")
-        report = assessment.produce_radiology_report(st.session_state['GTW'])
+        report = st.session_state['assessment'].produce_radiology_report(st.session_state['GTW'])  # Use assessment from session state
         st.session_state['report'] = report
         st.text_area("Report", report, height=400)  # Display the report in a text area
         # Create the filename with current date and time

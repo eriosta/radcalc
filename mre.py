@@ -13,11 +13,21 @@ params = {
     '3.0 T': {'intercept': -0.03, 'slope': 1.349e-2, 'r2': 0.87, 'conf_intercept': (-.51, .45), 'conf_slope': (1.282e-2, 1.417e-2)}
 }
 
+# Create a decorator to display a toast when a step is completed
+def step_completed(func):
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        st.toast(f'{args[0]} completed!', icon='🎉')
+        return result
+    return wrapper
+
 # Calculate LIC
+@step_completed
 def calculate_iron(T_value, R2_star):
     return round(params[T_value]['intercept'] + params[T_value]['slope'] * R2_star,1)
 
 # Plot LIC with confidence intervals
+@step_completed
 def plot_LIC(T_value, R2_value, LIC):
     x = np.linspace(0, max(100, R2_value+10), 100)
     y = params[T_value]['intercept'] + params[T_value]['slope'] * x
@@ -40,6 +50,7 @@ def plot_LIC(T_value, R2_value, LIC):
     plt.grid(True)
     st.pyplot(plt.gcf())
 
+@step_completed
 def iron_grading(Y):
     if Y < 1.8:
         return "Grade 0: Normal. No Fe overload."
@@ -52,6 +63,7 @@ def iron_grading(Y):
     else:
         return "Grade 4: Extreme Fe overload."
 
+@step_completed
 def fat_grading(percentage):
     if percentage < 5:
         return "Grade 0: Normal. No steatosis."
@@ -62,6 +74,7 @@ def fat_grading(percentage):
     else:
         return "Grade 3: Severe steatosis."
 
+@step_completed
 def calculate_fsm(m_values, a_values):
     total_area = sum(a_values)
     if total_area == 0:
@@ -70,6 +83,7 @@ def calculate_fsm(m_values, a_values):
         result = sum([m*a for m,a in zip(m_values, a_values)]) / total_area
         return round(result, 1)
 
+@step_completed
 def fsm_grading(fsm_value):
     if fsm_value < 2.5:
         return "Normal"
@@ -101,9 +115,9 @@ def run():
 
     # Home Page
     if nav_selection == 'Home':
-        st.header('MR Elastography Calculator')
+        st.header('MR Liver Elastography Calculator')
         st.write("""
-        This app helps with:
+        This calculator helps with:
         - Calculating Liver Stiffness Measure (LSM)
         - Determining Steatosis Grade
         - Calculating Liver Iron Content (LIC)
