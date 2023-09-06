@@ -5,13 +5,13 @@ import abdominal_trauma
     
 def main():
     st.set_page_config(page_title='RADCalc', page_icon=':skull:')
-    st.sidebar.title("`RADCalc`")
+    st.sidebar.title("RADCalc")
 
     # Use radio to go to a page
     page = st.sidebar.radio("Go to", ["Home", "Body", "MSK"])
 
     if page == "Home":
-        
+        st.subheader("Welcome to RADCalc!")
         st.write("""
                  Hey there! Dive into RADCalc, inspired by top-tier studies from RSNA journals like Radiology and Radiographics. We've created this app with you in mind, making those often tedious radiology calculations a breeze.
                  

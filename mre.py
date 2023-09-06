@@ -94,7 +94,7 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 def run():
-    st.title('RADCalc')
+    st.title('MRE')
 
     # Add 'Home' to the navigation options
     nav_selection = st.sidebar.radio('', ['Home', 'Calculate LSM', 'Determine Steatosis Grade', 'Calculate LIC', 'Generate Report', 'References'])

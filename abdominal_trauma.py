@@ -82,8 +82,8 @@ def run():
     selection = st.sidebar.radio("Choose an organ:", ["Home", "Spleen", "Liver", "Kidneys"])
 
     if selection == "Home":
-        st.title("Organ Grading System")
-        st.write("Welcome to the Organ Grading System. Select an organ from the sidebar to proceed.")
+        st.title("Abdominal Trauma Grading")
+        st.write("Select an organ from the sidebar to proceed.")
     elif selection == "Spleen":
         spleen_grading()
     elif selection == "Liver":
