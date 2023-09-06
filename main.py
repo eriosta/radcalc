@@ -4,12 +4,7 @@ import glenoid
 import abdominal_trauma
     
 def main():
-    st.set_page_config(page_title='RADCalc', page_icon=':skull:', layout='wide', initial_sidebar_state='auto', theme={
-        'primaryColor':'#FFFFFF',
-        'backgroundColor':'#000000',
-        'secondaryBackgroundColor':'#000000',
-        'textColor':'#FFFFFF'
-    })
+    st.set_page_config(page_title='RADCalc', page_icon=':skull:')
     st.sidebar.title("Navigation")
 
     # Use radio to go to a page
