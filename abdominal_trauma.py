@@ -79,7 +79,7 @@ def kidney_grading():
 
 def run():
     # Sidebar navigation
-    selection = st.sidebar.radio("Choose an organ:", ["Home", "Spleen", "Liver", "Kidneys"])
+    selection = st.sidebar.radio("Abdominal Trauma Grading:", ["Home", "Spleen", "Liver", "Kidneys"])
 
     if selection == "Home":
         st.title("Abdominal Trauma Grading")

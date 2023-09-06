@@ -97,7 +97,7 @@ def run():
     st.title('MRE')
 
     # Add 'Home' to the navigation options
-    nav_selection = st.sidebar.radio('', ['Home', 'Calculate LSM', 'Determine Steatosis Grade', 'Calculate LIC', 'Generate Report', 'References'])
+    nav_selection = st.sidebar.radio('MRE', ['Home', 'Calculate LSM', 'Determine Steatosis Grade', 'Calculate LIC', 'Generate Report', 'References'])
 
     # Home Page
     if nav_selection == 'Home':
