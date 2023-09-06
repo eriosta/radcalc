@@ -28,7 +28,7 @@ def user_suggestions():
 
     # Generate CAPTCHA
     captcha_text = generate_random_string(length=5)  # Reduced length for easier CAPTCHA
-    image_captcha = ImageCaptcha(width=160, height=60, fonts=None, font_sizes=(30, 40, 50))  # Adjusting font size and dimensions
+    image_captcha = ImageCaptcha(fonts=None)  # Adjusting font size and dimensions
     image = image_captcha.generate_image(captcha_text)
     
     with st.form(key='my_form'):
@@ -38,7 +38,7 @@ def user_suggestions():
         message = st.text_area(label='Enter your message')
         
         # Display CAPTCHA image on Streamlit
-        st.image(image, caption="CAPTCHA")  # Reduced image display width
+        st.image(image, caption="CAPTCHA",use_column_width=True)  # Reduced image display width
 
         captcha_input = st.text_input(label='Enter the text from the image')
         submit_button = st.form_submit_button(label='Submit')
