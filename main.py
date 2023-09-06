@@ -4,12 +4,18 @@ import glenoid
 import abdominal_trauma
     
 def main():
+    st.set_page_config(page_title='RADCalc', page_icon=':skull:', layout='wide', initial_sidebar_state='auto', theme={
+        'primaryColor':'#FFFFFF',
+        'backgroundColor':'#000000',
+        'secondaryBackgroundColor':'#000000',
+        'textColor':'#FFFFFF'
+    })
     st.sidebar.title("Navigation")
 
     # Use radio to go to a page
-    page = st.sidebar.radio("Go to", ["RADCalc", "Body", "MSK"])
+    page = st.sidebar.radio("Go to", ["Home", "Body", "MSK"])
 
-    if page == "RADCalc":
+    if page == "Home":
         st.title("Welcome to RADCalc!")
         st.write("""
                  Hey there! Dive into RADCalc, inspired by top-tier studies from RSNA journals like Radiology and Radiographics. We've created this app with you in mind, making those often tedious radiology calculations a breeze.
