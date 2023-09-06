@@ -47,9 +47,10 @@ def user_suggestions():
         submit_button = st.form_submit_button(label='Submit')
         
         if submit_button:
-            if captcha_input.lower() == captcha_text:
-                worksheet = setup_gspread()
-                append_to_sheet(worksheet, name, email, message)
-                st.success("Your calculator request has been sent!")
-            else:
-                st.error("Please verify you are a human!")
+            # if captcha_input.lower() == captcha_text:
+            worksheet = setup_gspread()
+            append_to_sheet(worksheet, name, email, message)
+            st.success("Your calculator request has been sent!")
+            # else:
+            #     st.error("Please verify you are a human!")
+
