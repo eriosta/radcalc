@@ -1,4 +1,3 @@
-from captcha.image import ImageCaptcha
 import random
 import string
 import streamlit as st
@@ -36,35 +35,27 @@ def generate_random_string(length=5):
     return ''.join(random.choice(letters) for i in range(length))
 
 def user_suggestions():
-    length_captcha = 4
-    width = 300  # Increase the width
-    height = 200  # Increase the height
+    # Generate a simple math question for user to solve
+    num1 = random.randint(1, 10)
+    num2 = random.randint(1, 10)
+    correct_answer = num1 + num2
 
-    # Generate CAPTCHA
-    captcha_text = generate_random_string(length=length_captcha).lower()  # No need to lower() here as all letters are already lowercase
-    image_captcha = ImageCaptcha(width=width, height=height, fonts=None, font_sizes=(40, 50))  # Increase the font size
-    image = image_captcha.generate_image(captcha_text)
-    
     with st.form(key='my_form'):
         st.write("Please fill out this form:")
         name = st.text_input(label='Enter your name')
         email = st.text_input(label='Enter your email')
         message = st.text_area(label='Enter your message')
         
-        # Display CAPTCHA image on Streamlit
-        st.image(image, caption="CAPTCHA",use_column_width=True)  # Reduced image display width
-
-        captcha_input = st.text_input(label='Enter the text from the image')
+        # Display math question on Streamlit
+        st.write(f"Please solve this simple math problem to verify you're not a bot: {num1} + {num2}")
+        user_answer = st.number_input(label='Enter your answer')
         submit_button = st.form_submit_button(label='Submit')
         
         if submit_button:
-            if captcha_input.lower() == captcha_text:
-                try:
-                    worksheet = setup_gspread()
-                    append_to_sheet(worksheet, name, email, message)
-                    st.success("Your calculator request has been sent!")
-                except Exception as e:
-                    st.error(f"An error occurred: {e}")
+            if user_answer == correct_answer:
+                worksheet = setup_gspread()
+                append_to_sheet(worksheet, name, email, message)
+                st.success("Your calculator request has been sent!")
             else:
                 st.error("Please verify you are a human!")
 
