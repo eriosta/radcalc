@@ -120,7 +120,7 @@ def run():
     st.title('MRE')
 
     # Add 'Home' to the navigation options
-    nav_selection = st.sidebar.radio('MRE', ['Home', 'Calculate LSM', 'Determine Steatosis Grade', 'Calculate LIC', 'Generate Report', 'References'])
+    nav_selection = st.sidebar.radio('MRE', ['Home', 'Step 1: Calculate LSM', 'Step 2: Determine Steatosis Grade', 'Step 3: Calculate LIC', 'Generate Report', 'References'])
 
     # Home Page
     if nav_selection == 'Home':
@@ -137,7 +137,7 @@ def run():
         """)
 
     # Calculate FSM
-    if nav_selection == 'Calculate LSM':
+    if nav_selection == 'Step 1: Calculate LSM':
         st.header('Calculate LSM')
         col1, col2 = st.columns(2)  # Assuming you're using a version of Streamlit that supports st.columns. If not, use st.beta_columns.
         
@@ -164,7 +164,7 @@ def run():
                 st.error("All ROI areas must be non-zero!")
 
     # Determine Steatosis Grade
-    elif nav_selection == 'Determine Steatosis Grade':
+    elif nav_selection == 'Step 2: Determine Steatosis Grade':
         st.header('Determine Steatosis Grade')
         percentage = st.number_input('Enter PDFF (%):', min_value=0.0, max_value=100.0, value=0.0)
         if st.button('Calculate Steatosis Grade'):
@@ -174,7 +174,7 @@ def run():
             st.write(grade)
 
     # Calculate LIC
-    elif nav_selection == 'Calculate LIC':
+    elif nav_selection == 'Step 3: Calculate LIC':
         st.header('Calculate LIC')
         T_values = ['1.5 T', '2.89 T', '3.0 T']
         default_T_value = T_values.index('3.0 T')  # Index for '3.0 T'

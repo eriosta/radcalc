@@ -47,7 +47,7 @@ def run():
     st.title("Glenoid Track Assessment")
 
     # Add 'Home' to the navigation options
-    nav_selection = st.sidebar.radio('Glenoid Track Assessment', ['Home', 'Step 1: Identify bipolar bone lesions', 'Step 2: Calculate GTW', 'Step 3: Measure HSI', 'Step 4: Determine tracking status of HSL', 'Step 5: Radiology Report'])
+    nav_selection = st.sidebar.radio('Glenoid Track Assessment', ['Home', 'Step 1: Identify bipolar bone lesions', 'Step 2: Calculate GTW', 'Step 3: Measure HSI', 'Step 4: Determine tracking status of HSL', 'Generate Report'])
     if nav_selection == 'Home':
         st.write("### Objectives")
         st.write("""1. Guided Assessment of Anterior Shoulder Dislocation: The app provides a systematic and simplified step-by-step approach to identify bipolar bone lesions, calculate the Glenoid Track Width (GTW), and measure the Humeral Side Injury (HSI) as shown in Aydıngöz, et al. 2023. Radiographics.\n\n2. Determination and Reporting of HSL Tracking Status: Through user input and subsequent calculations, the app determines the tracking status of the Hill-Sachs lesion (HSL) as either "on track" or "off track," generating a brief radiology report that can be downloaded for documentation and sharing.""")
@@ -87,7 +87,7 @@ def run():
         st.write(f"The HSL is {status}.")
         # Display the status inside a makeshift box using markdown
         st.markdown(f"""<div style="background-color: #f0f0f5; padding: 10px; border-radius: 5px; border: 1px solid gray;"><h4 style="color: black; text-align: center;">The HSL is <strong>{status}</strong>.</h4></div>""", unsafe_allow_html=True)
-    elif nav_selection == 'Step 5: Radiology Report':
+    elif nav_selection == 'Generate Report':
         if 'status' not in st.session_state or 'assessment' not in st.session_state:
             st.error("Please complete Step 4 before proceeding.")
             return
