@@ -28,7 +28,7 @@ def user_suggestions():
 
     # Generate CAPTCHA
     captcha_text = generate_random_string(length=5)  # Reduced length for easier CAPTCHA
-    image_captcha = ImageCaptcha(fonts=None)  # Adjusting font size and dimensions
+    image_captcha = ImageCaptcha(width=100, height=40, fonts=None, font_sizes=(30, 40)) 
     image = image_captcha.generate_image(captcha_text)
     
     with st.form(key='my_form'):
