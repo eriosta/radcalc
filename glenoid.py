@@ -34,6 +34,9 @@ def run():
         st.write("### Step 1: Identify bipolar bone lesions at CT or ZTE MRI")
         st.write("""Sometimes only HSL is present without any discernible glenoid rim defect. If HSL is sufficiently medial, it can still be off track (engage an intact glenoid rim).""")
     elif nav_selection == 'Step 2: Calculate GTW':
+        if 'D' not in st.session_state:
+            st.error("Please complete Step 1 before proceeding.")
+            return
         st.write("### Step 2: Calculate GTW")
         st.write("""Place the best-fit circle on the lower two-thirds of pear-shaped glenoid on the glenoid en face view at MPR CT or ZTE MRI.""")
         D = st.number_input("Enter glenoid joint face diameter (D):", value=0.0)
@@ -42,11 +45,17 @@ def run():
         st.session_state['d'] = d
         st.write("""Ascertain glenoid rim defect size by identifying the deepest extent of glenoid rim defect on imaginary concentric circles within the best-fit circle.""")
     elif nav_selection == 'Step 3: Measure HSI':
+        if 'd' not in st.session_state:
+            st.error("Please complete Step 2 before proceeding.")
+            return
         st.write("### Step 3: Measure HSI using MPR tool and cross-referencing on multiple images")
         st.write("""Identify the medialmost extent of HSL with respect to the dome of the humeral head. HSI is the shortest distance from this point to the medial edge of the rotator cuff footprint.""")
         HSI = st.number_input("Enter Humeral Side Injury measurement (HSI):", value=0.0)
         st.session_state['HSI'] = HSI
     elif nav_selection == 'Step 4: Determine tracking status of HSL':
+        if 'HSI' not in st.session_state:
+            st.error("Please complete Step 3 before proceeding.")
+            return
         st.write("### Step 4: Determine tracking status of HSL")
         assessment = GlenoidTrackAssessment(st.session_state['D'], st.session_state['d'], st.session_state['HSI'])
         GTW = assessment.calculate_GTW()
@@ -57,6 +66,9 @@ def run():
         # Display the status inside a makeshift box using markdown
         st.markdown(f"""<div style="background-color: #f0f0f5; padding: 10px; border-radius: 5px; border: 1px solid gray;"><h4 style="color: black; text-align: center;">The HSL is <strong>{status}</strong>.</h4></div>""", unsafe_allow_html=True)
     elif nav_selection == 'Step 5: Radiology Report':
+        if 'status' not in st.session_state:
+            st.error("Please complete Step 4 before proceeding.")
+            return
         st.write("### Step 5: Radiology Report")
         report = assessment.produce_radiology_report(st.session_state['GTW'])
         st.session_state['report'] = report
