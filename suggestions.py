@@ -21,14 +21,14 @@ def append_to_sheet(worksheet, name, email, message):
     worksheet.append_row([name, email, message])
 
 def generate_random_string(length=5):
-    letters = "abcde12345"  # Limited set of characters
+    letters = "abc123"  # Limited set of characters
     return ''.join(random.choice(letters) for i in range(length))
 
 def user_suggestions():
 
     # Generate CAPTCHA
     captcha_text = generate_random_string(length=5)  # Reduced length for easier CAPTCHA
-    image_captcha = ImageCaptcha(width=100, height=40, fonts=None, font_sizes=(30, 40)) 
+    image_captcha = ImageCaptcha(fonts=None, font_sizes=(30, 40)) 
     image = image_captcha.generate_image(captcha_text)
     
     with st.form(key='my_form'):
