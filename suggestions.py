@@ -21,7 +21,7 @@ def append_to_sheet(worksheet, name, email, message):
     worksheet.append_row([name, email, message])
 
 def generate_random_string(length=5):
-    letters = "abcde12345"  # Limited set of characters
+    letters = string.ascii_lowercase + string.digits  # Use all lowercase letters and digits
     return ''.join(random.choice(letters) for i in range(length))
 
 def user_suggestions():
@@ -30,7 +30,7 @@ def user_suggestions():
     height = 200  # Increase the height
 
     # Generate CAPTCHA
-    captcha_text = generate_random_string(length=length_captcha).lower()  # Reduced length for easier CAPTCHA
+    captcha_text = generate_random_string(length=length_captcha).lower()  # No need to lower() here as all letters are already lowercase
     image_captcha = ImageCaptcha(width=width, height=height, fonts=None, font_sizes=(40, 50))  # Increase the font size
     image = image_captcha.generate_image(captcha_text)
     
