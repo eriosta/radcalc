@@ -26,12 +26,12 @@ def generate_random_string(length=5):
 
 def user_suggestions():
     length_captcha = 4
-    width = 200
-    height = 150
+    width = 300  # Increase the width
+    height = 200  # Increase the height
 
     # Generate CAPTCHA
     captcha_text = generate_random_string(length=length_captcha)  # Reduced length for easier CAPTCHA
-    image_captcha = ImageCaptcha(width=width,height=height,fonts=None, font_sizes=(30, 40)) 
+    image_captcha = ImageCaptcha(width=width, height=height, fonts=None, font_sizes=(40, 50))  # Increase the font size
     image = image_captcha.generate_image(captcha_text)
     
     with st.form(key='my_form'):
@@ -53,4 +53,3 @@ def user_suggestions():
                 st.success("Your calculator request has been sent!")
             else:
                 st.error("Please verify you are a human!")
-
