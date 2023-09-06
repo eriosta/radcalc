@@ -30,7 +30,7 @@ def user_suggestions():
     height = 200  # Increase the height
 
     # Generate CAPTCHA
-    captcha_text = generate_random_string(length=length_captcha)  # Reduced length for easier CAPTCHA
+    captcha_text = generate_random_string(length=length_captcha).lower()  # Reduced length for easier CAPTCHA
     image_captcha = ImageCaptcha(width=width, height=height, fonts=None, font_sizes=(40, 50))  # Increase the font size
     image = image_captcha.generate_image(captcha_text)
     
