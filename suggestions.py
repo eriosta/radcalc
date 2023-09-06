@@ -25,7 +25,6 @@ def generate_random_string(length=5):
     return ''.join(random.choice(letters) for i in range(length))
 
 def user_suggestions():
-    st.title("CAPTCHA Display")
 
     # Generate CAPTCHA
     captcha_text = generate_random_string(length=5)  # Reduced length for easier CAPTCHA
@@ -39,7 +38,7 @@ def user_suggestions():
         message = st.text_area(label='Enter your message')
         
         # Display CAPTCHA image on Streamlit
-        st.image(image, caption="CAPTCHA", width=120)  # Reduced image display width
+        st.image(image, caption="CAPTCHA")  # Reduced image display width
 
         captcha_input = st.text_input(label='Enter the text from the image')
         submit_button = st.form_submit_button(label='Submit')
