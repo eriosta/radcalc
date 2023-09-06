@@ -5,13 +5,13 @@ import abdominal_trauma
     
 def main():
     st.set_page_config(page_title='RADCalc', page_icon=':skull:')
-    st.sidebar.title("Navigation")
+    st.sidebar.title("`RADCalc`")
 
     # Use radio to go to a page
     page = st.sidebar.radio("Go to", ["Home", "Body", "MSK"])
 
     if page == "Home":
-        st.title("Welcome to RADCalc!")
+        
         st.write("""
                  Hey there! Dive into RADCalc, inspired by top-tier studies from RSNA journals like Radiology and Radiographics. We've created this app with you in mind, making those often tedious radiology calculations a breeze.
                  
@@ -27,15 +27,15 @@ def main():
         """)
     
     elif page == "Body":
-        choice = st.sidebar.radio("Choose the calculation", ["MR Liver Elastography (MRE)", "Grading Abdominal Trauma (2018 AAST-OIS)"])
-        if choice == "MR Liver Elastography (MRE)":
+        choice = st.sidebar.radio("Choose the calculation", ["MR Liver Elastography", "Grading Abdominal Trauma"])
+        if choice == "MR Liver Elastography":
             mre.run()
-        elif choice == "Grading Abdominal Trauma (2018 AAST-OIS)":
+        elif choice == "Grading Abdominal Trauma":
             abdominal_trauma.run()
 
     elif page == "MSK":
-        choice = st.sidebar.radio("Choose the calculation", ["Glenoid Track Assessment (Hill-Sachs Lesion)"])
-        if choice == "Glenoid Track Assessment (Hill-Sachs Lesion)":
+        choice = st.sidebar.radio("Choose the calculation", ["Glenoid Track Assessment"])
+        if choice == "Glenoid Track Assessment":
             glenoid.run()
 
 if __name__ == "__main__":
