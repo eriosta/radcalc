@@ -5,8 +5,8 @@ def spleen_grading():
         grade = None
 
         laceration = st.radio("Laceration", ["Less than 1 cm", "1-3 cm", "Greater than 3 cm"], key="laceration")
-        subscap_hematoma = st.radio("Subscapular hematoma", ["Less than 10% surface area", "10-50%", "Greater than 50%","Ruptured"], key="subscap_hematoma")
-        intraparenchymal_hematoma = st.radio("Intraparenchymal hematoma", ["Less than 5 cm", "Greater than or equal to 5 cm","Ruptured"], key="intraparenchymal_hematoma")
+        subscap_hematoma = st.radio("Subscapular hematoma", ["Less than 10% surface area", "10-50%", "Greater than 50%"], key="subscap_hematoma")
+        intraparenchymal_hematoma = st.radio("Intraparenchymal hematoma", ["Less than 5 cm", "Greater than or equal to 5 cm"], key="intraparenchymal_hematoma")
         devascularization = st.radio("Devascularization", ["25-75%", "None of these"], key="devascularization")
         vascular_injury = st.radio("AVF, pseudoaneurysm, vascular injury", ["Present", "Absent"], key="vascular_injury")
         active_bleeding = st.radio("Active bleeding", ["Confined active parenchymal active bleeding", "Active bleeding extending to peritoneum", "None of these"], key="active_bleeding")
@@ -65,8 +65,8 @@ def liver_grading():
         grade = None
 
         lac = st.radio("Laceration", ["Less than 1 cm", "1-3 cm", "Greater than 3 cm"], key="lac")
-        subscap_hematoma = st.radio("Subscapular hematoma", ["Less than 10% surface area", "10-50%", "Greater than 50%"], key="subscap_hematoma_liver")
-        intraparenchymal_hemorrhage = st.radio("Intraparenchymal hemorrhage", ["Less than 10 cm", "Greater than 10 cm"], key="intraparenchymal_hemorrhage")
+        subscap_hematoma = st.radio("Subscapular hematoma", ["Less than 10% surface area", "10-50%", "Greater than 50%","Ruptured"], key="subscap_hematoma_liver")
+        intraparenchymal_hemorrhage = st.radio("Intraparenchymal hemorrhage", ["Less than 10 cm", "Greater than 10 cm","Ruptured"], key="intraparenchymal_hemorrhage")
         lobar_parenchymal_disruption = st.radio("Lobar parenchymal disruption", ["25-75%", "Greater than 75%"], key="lobar_parenchymal_disruption")
         active_bleeding = st.radio("Active bleeding", ["Confined to liver", "Extending to peritoneum"], key="active_bleeding_liver")
         venous_injury = st.radio("Venous injury (IVC/major hepatic veins)", ["Present", "Absent"], key="venous_injury")
