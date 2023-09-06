@@ -25,7 +25,7 @@ def setup_gspread():
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     credentials = ServiceAccountCredentials.from_json_keyfile_dict(json_key, scope)
     gc = gspread.authorize(credentials)
-    worksheet = gc.open("Your Google Sheet Name Here").sheet1
+    worksheet = gc.open("RADCalc").sheet1
     return worksheet
 
 # Function to append data to the Google Sheet
