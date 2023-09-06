@@ -34,9 +34,6 @@ def run():
         st.write("### Step 1: Identify bipolar bone lesions at CT or ZTE MRI")
         st.write("""Sometimes only HSL is present without any discernible glenoid rim defect. If HSL is sufficiently medial, it can still be off track (engage an intact glenoid rim).""")
     elif nav_selection == 'Step 2: Calculate GTW':
-        if 'D' not in st.session_state:
-            st.error("Please complete Step 1 before proceeding.")
-            return
         st.write("### Step 2: Calculate GTW")
         st.write("""Place the best-fit circle on the lower two-thirds of pear-shaped glenoid on the glenoid en face view at MPR CT or ZTE MRI.""")
         D = st.number_input("Enter glenoid joint face diameter (D):", value=0.0)
@@ -45,6 +42,9 @@ def run():
         st.session_state['d'] = d
         st.write("""Ascertain glenoid rim defect size by identifying the deepest extent of glenoid rim defect on imaginary concentric circles within the best-fit circle.""")
     elif nav_selection == 'Step 3: Measure HSI':
+        if 'D' not in st.session_state:
+            st.error("Please complete Step 2 before proceeding.")
+            return
         if 'd' not in st.session_state:
             st.error("Please complete Step 2 before proceeding.")
             return
