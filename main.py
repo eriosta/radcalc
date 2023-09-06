@@ -1,6 +1,6 @@
 import streamlit as st
-import app
-import test
+import mre
+import glenoid
 import abdominal_trauma
     
 def main():
@@ -30,13 +30,16 @@ def main():
         """)
     
     elif choice == "MR Liver Elastography (MRE)":
-        app.run()
+        with st.spinner('Loading MR Liver Elastography...'):
+            mre.run()
     
     elif choice == "Glenoid Track Assessment (Hill-Sachs Lesion)":
-        test.run()
+        with st.spinner('Loading Glenoid Track Assessment...'):
+            glenoid.run()
     
     elif choice == "Grading Abdominal Trauma (2018 AAST-OIS)":
-        abdominal_trauma.run()
+        with st.spinner('Loading Grading Abdominal Trauma...'):
+            abdominal_trauma.run()
 
 if __name__ == "__main__":
     main()
