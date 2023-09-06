@@ -1,21 +1,34 @@
 import streamlit as st
 from datetime import datetime
 
+import random
+
+def step_completed(func):
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        messages = ['Completed!', 'Well done!', '10/10', "Let's go!", "Top 1 percentile!", "You inspire us!", "OK, go off!", "Superb!", "Nicely done!", "Show 'em how it's done!", "100%!"]
+        emojis = ['🎉', '👏', '💯', '🚀', '🔥', '🌟', '💪', '🎯', '🏆', '🥇']
+        st.toast(random.choice(messages), icon=random.choice(emojis))
+        return result
+    return wrapper
+
 class GlenoidTrackAssessment:
     def __init__(self, D=0, d=0, HSI=0):
         self.D = D  # glenoid joint face diameter
         self.d = d  # maximum diametric width of glenoid rim defect
         self.HSI = HSI  # Humeral Side Injury
 
+    @step_completed
     def calculate_GTW(self):
         return (0.83 * self.D) - self.d
 
+    @step_completed
     def determine_tracking_status(self, GTW):
         if self.HSI > GTW:
             return "off track"
         else:
             return "on track"
-
+    @step_completed
     def produce_radiology_report(self, GTW):
         report = f"""Glenoid Diameter: {self.D}\n\nGlenoid Rim Defect: {self.d}\n\nGTW: {GTW}\n\nGTW Formula Used: GTW = (0.83 x D) - d\n\nHSI: {self.HSI}\n\nHSL Tracking Status: {self.determine_tracking_status(GTW)}
         """

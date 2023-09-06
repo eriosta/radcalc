@@ -5,6 +5,7 @@ import pandas as pd
 import datetime
 import matplotlib.pyplot as plt
 import numpy as np
+import random
 
 # Define parameters for each MR type
 params = {
@@ -17,17 +18,17 @@ params = {
 def step_completed(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
-        st.toast(f'{args[0]} completed!', icon='🎉')
+        messages = ['Completed!', 'Well done!', '10/10', "Let's go!", "Top 1 percentile!", "You inspire us!", "OK, go off!", "Superb!", "Nicely done!", "Show 'em how it's done!", "100%!"]
+        emojis = ['🎉', '👏', '💯', '🚀', '🔥', '🌟', '💪', '🎯', '🏆', '🥇']
+        st.toast(random.choice(messages), icon=random.choice(emojis))
         return result
     return wrapper
 
 # Calculate LIC
-@step_completed
 def calculate_iron(T_value, R2_star):
     return round(params[T_value]['intercept'] + params[T_value]['slope'] * R2_star,1)
 
 # Plot LIC with confidence intervals
-@step_completed
 def plot_LIC(T_value, R2_value, LIC):
     x = np.linspace(0, max(100, R2_value+10), 100)
     y = params[T_value]['intercept'] + params[T_value]['slope'] * x
@@ -74,7 +75,6 @@ def fat_grading(percentage):
     else:
         return "Grade 3: Severe steatosis."
 
-@step_completed
 def calculate_fsm(m_values, a_values):
     total_area = sum(a_values)
     if total_area == 0:
