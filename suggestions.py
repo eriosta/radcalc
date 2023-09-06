@@ -21,7 +21,7 @@ def append_to_sheet(worksheet, name, email, message):
     worksheet.append_row([name, email, message])
 
 def generate_random_string(length=5):
-    letters = string.ascii_lowercase
+    letters = "abcde12345"  # Limited set of characters
     return ''.join(random.choice(letters) for i in range(length))
 
 def user_suggestions():
