@@ -3,11 +3,20 @@ from datetime import datetime
 
 import random
 
+# def step_completed(func):
+#     def wrapper(*args, **kwargs):
+#         result = func(*args, **kwargs)
+#         messages = ['Completed!', 'Well done!', '10/10', "Let's go!", "Top 1 percentile!", "You inspire us!", "OK, go off!", "Superb!", "Nicely done!", "Show 'em how it's done!", "100%!"]
+#         emojis = ['🎉', '👏', '💯', '🚀', '🔥', '🌟', '💪', '🎯', '🏆', '🥇']
+#         st.toast(random.choice(messages), icon=random.choice(emojis))
+#         return result
+#     return wrapper
+
 def step_completed(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
-        messages = ['Completed!', 'Well done!', '10/10', "Let's go!", "Top 1 percentile!", "You inspire us!", "OK, go off!", "Superb!", "Nicely done!", "Show 'em how it's done!", "100%!"]
-        emojis = ['🎉', '👏', '💯', '🚀', '🔥', '🌟', '💪', '🎯', '🏆', '🥇']
+        messages = ['Completed!']
+        emojis = ['✅']
         st.toast(random.choice(messages), icon=random.choice(emojis))
         return result
     return wrapper
@@ -18,7 +27,6 @@ class GlenoidTrackAssessment:
         self.d = d  # maximum diametric width of glenoid rim defect
         self.HSI = HSI  # Humeral Side Injury
 
-    @step_completed
     def calculate_GTW(self):
         return (0.83 * self.D) - self.d
 
