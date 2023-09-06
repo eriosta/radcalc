@@ -13,19 +13,19 @@ def spleen_grading():
         shattered_spleen = st.radio("Shattered spleen", ["Present", "Absent"], key="shattered_spleen")
 
         # Check for Grade V criteria first
-        if active_bleeding == "Active bleeding extending to peritoneum" and shattered_spleen == "Present":
+        if active_bleeding == "Active bleeding extending to peritoneum" or shattered_spleen == "Present":
             grade = "V"
         # Then, check for Grade IV
-        elif devascularization == "25-75%" and vascular_injury == "Present" and active_bleeding == "Confined active parenchymal active bleeding":
+        elif devascularization == "25-75%" or vascular_injury == "Present" or active_bleeding == "Confined active parenchymal active bleeding":
             grade = "IV"
         # Then Grade III
-        elif laceration == "Greater than 3 cm" and subscap_hematoma == "Greater than 50%" and intraparenchymal_hematoma == "Greater than or equal to 5 cm":
+        elif laceration == "Greater than 3 cm" or subscap_hematoma == "Greater than 50%" or intraparenchymal_hematoma == "Greater than or equal to 5 cm":
             grade = "III"
         # Then Grade II
-        elif laceration == "1-3 cm" and subscap_hematoma == "10-50%" and intraparenchymal_hematoma == "Less than 5 cm":
+        elif laceration == "1-3 cm" or subscap_hematoma == "10-50%" or intraparenchymal_hematoma == "Less than 5 cm":
             grade = "II"
         # Finally, Grade I
-        elif laceration == "Less than 1 cm" and subscap_hematoma == "Less than 10% surface area":
+        elif laceration == "Less than 1 cm" or subscap_hematoma == "Less than 10% surface area":
             grade = "I"
 
         return grade
@@ -33,9 +33,32 @@ def spleen_grading():
     st.title("Spleen Grading System")
     grade = determine_grade()
     if grade:
-        st.write(f"The spleen's grade is: Grade {grade}")
+        st.info(f"The spleen's grade is: Grade {grade}")
+        if grade == "V":
+            with st.expander("Grade V Criteria"):
+                st.markdown("* Active bleeding extending to peritoneum")
+                st.markdown("* Shattered spleen is Present")
+        elif grade == "IV":
+            with st.expander("Grade IV Criteria"):
+                st.markdown("* Devascularization is 25-75%")
+                st.markdown("* Vascular injury is Present")
+                st.markdown("* Active bleeding is Confined active parenchymal active bleeding")
+        elif grade == "III":
+            with st.expander("Grade III Criteria"):
+                st.markdown("* Laceration is Greater than 3 cm")
+                st.markdown("* Subscapular hematoma is Greater than 50%")
+                st.markdown("* Intraparenchymal hematoma is Greater than or equal to 5 cm")
+        elif grade == "II":
+            with st.expander("Grade II Criteria"):
+                st.markdown("* Laceration is 1-3 cm")
+                st.markdown("* Subscapular hematoma is 10-50%")
+                st.markdown("* Intraparenchymal hematoma is Less than 5 cm")
+        elif grade == "I":
+            with st.expander("Grade I Criteria"):
+                st.markdown("* Laceration is Less than 1 cm")
+                st.markdown("* Subscapular hematoma is Less than 10% surface area")
     else:
-        st.write("No matching grade found according to the inputs provided.")
+        st.error("No matching grade found according to the inputs provided.")
 
 def liver_grading():
     def determine_liver_grade():
@@ -58,10 +81,10 @@ def liver_grading():
         elif intraparenchymal_hemorrhage == "Greater than 10 cm" or intraparenchymal_hemorrhage == "Ruptured" or subscap_hematoma == "Greater than 50%" or subscap_hematoma == "Ruptured" or lac =="Greater than 3 cm" or active_bleeding == "Confined to liver":
             grade = "III"
         # Grade II
-        elif lac == "1-3 cm" and subscap_hematoma == "10-50%" and intraparenchymal_hemorrhage == "Less than 10 cm":
+        elif lac == "1-3 cm" or subscap_hematoma == "10-50%" or intraparenchymal_hemorrhage == "Less than 10 cm":
             grade = "II"
         # Grade I
-        elif lac == "Less than 1 cm" and subscap_hematoma == "Less than 10% surface area":
+        elif lac == "Less than 1 cm" or subscap_hematoma == "Less than 10% surface area":
             grade = "I"
         
         return grade
@@ -69,9 +92,32 @@ def liver_grading():
     st.title("Liver Grading System")
     grade = determine_liver_grade()
     if grade:
-        st.write(f"The liver's grade is: Grade {grade}")
+        st.info(f"The liver's grade is: Grade {grade}")
+        if grade == "V":
+            with st.expander("Grade V Criteria"):
+                st.markdown("* Lobar parenchymal disruption is Greater than 75%")
+                st.markdown("* Venous injury (IVC/major hepatic veins) is Present")
+        elif grade == "IV":
+            with st.expander("Grade IV Criteria"):
+                st.markdown("* Lobar parenchymal disruption is 25-75%")
+                st.markdown("* Active bleeding is Extending to peritoneum")
+        elif grade == "III":
+            with st.expander("Grade III Criteria"):
+                st.markdown("* Intraparenchymal hemorrhage is Greater than 10 cm")
+                st.markdown("* Subscapular hematoma is Greater than 50%")
+                st.markdown("* Laceration is Greater than 3 cm")
+                st.markdown("* Active bleeding is Confined to liver")
+        elif grade == "II":
+            with st.expander("Grade II Criteria"):
+                st.markdown("* Laceration is 1-3 cm")
+                st.markdown("* Subscapular hematoma is 10-50%")
+                st.markdown("* Intraparenchymal hemorrhage is Less than 10 cm")
+        elif grade == "I":
+            with st.expander("Grade I Criteria"):
+                st.markdown("* Laceration is Less than 1 cm")
+                st.markdown("* Subscapular hematoma is Less than 10% surface area")
     else:
-        st.write("No matching grade found according to the inputs provided.")
+        st.error("No matching grade found according to the inputs provided.")
 
 def kidney_grading():
     st.title("Kidney Grading System")
