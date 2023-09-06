@@ -21,14 +21,17 @@ def append_to_sheet(worksheet, name, email, message):
     worksheet.append_row([name, email, message])
 
 def generate_random_string(length=5):
-    letters = "abc123"  # Limited set of characters
+    letters = "abcde12345"  # Limited set of characters
     return ''.join(random.choice(letters) for i in range(length))
 
 def user_suggestions():
+    length_captcha = 4
+    width = 200
+    height = 150
 
     # Generate CAPTCHA
-    captcha_text = generate_random_string(length=5)  # Reduced length for easier CAPTCHA
-    image_captcha = ImageCaptcha(fonts=None, font_sizes=(30, 40)) 
+    captcha_text = generate_random_string(length=length_captcha)  # Reduced length for easier CAPTCHA
+    image_captcha = ImageCaptcha(width=width,height=height,fonts=None, font_sizes=(30, 40)) 
     image = image_captcha.generate_image(captcha_text)
     
     with st.form(key='my_form'):
@@ -50,3 +53,4 @@ def user_suggestions():
                 st.success("Your calculator request has been sent!")
             else:
                 st.error("Please verify you are a human!")
+
