@@ -59,9 +59,12 @@ def user_suggestions():
         
         if submit_button:
             if captcha_input.lower() == captcha_text:
-                worksheet = setup_gspread()
-                append_to_sheet(worksheet, name, email, message)
-                st.success("Your calculator request has been sent!")
+                try:
+                    worksheet = setup_gspread()
+                    append_to_sheet(worksheet, name, email, message)
+                    st.success("Your calculator request has been sent!")
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
             else:
                 st.error("Please verify you are a human!")
 
