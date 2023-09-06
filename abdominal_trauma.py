@@ -5,8 +5,8 @@ def spleen_grading():
         grade = None
 
         laceration = st.radio("Laceration", ["Less than 1 cm", "1-3 cm", "Greater than 3 cm"], key="laceration")
-        subscap_hematoma = st.radio("Subscapular hematoma", ["Less than 10% surface area", "10-50%", "Greater than 50%"], key="subscap_hematoma")
-        intraparenchymal_hematoma = st.radio("Intraparenchymal hematoma", ["Less than 5 cm", "Greater than or equal to 5 cm"], key="intraparenchymal_hematoma")
+        subscap_hematoma = st.radio("Subscapular hematoma", ["Less than 10% surface area", "10-50%", "Greater than 50%","Ruptured"], key="subscap_hematoma")
+        intraparenchymal_hematoma = st.radio("Intraparenchymal hematoma", ["Less than 5 cm", "Greater than or equal to 5 cm","Ruptured"], key="intraparenchymal_hematoma")
         devascularization = st.radio("Devascularization", ["25-75%", "None of these"], key="devascularization")
         vascular_injury = st.radio("AVF, pseudoaneurysm, vascular injury", ["Present", "Absent"], key="vascular_injury")
         active_bleeding = st.radio("Active bleeding", ["Confined active parenchymal active bleeding", "Active bleeding extending to peritoneum", "None of these"], key="active_bleeding")
@@ -49,13 +49,13 @@ def liver_grading():
         venous_injury = st.radio("Venous injury (IVC/major hepatic veins)", ["Present", "Absent"], key="venous_injury")
 
         # Grade V
-        if lobar_parenchymal_disruption == "Greater than 75%" and venous_injury == "Present":
+        if lobar_parenchymal_disruption == "Greater than 75%" or venous_injury == "Present":
             grade = "V"
         # Grade IV
-        elif lobar_parenchymal_disruption == "25-75%" and active_bleeding == "Extending to peritoneum":
+        elif lobar_parenchymal_disruption == "25-75%" or active_bleeding == "Extending to peritoneum":
             grade = "IV"
         # Grade III
-        elif intraparenchymal_hemorrhage == "Greater than 10 cm" and subscap_hematoma == "Greater than 50%":
+        elif intraparenchymal_hemorrhage == "Greater than 10 cm" or intraparenchymal_hemorrhage == "Ruptured" or subscap_hematoma == "Greater than 50%" or subscap_hematoma == "Ruptured" or lac =="Greater than 3 cm" or active_bleeding == "Confined to liver":
             grade = "III"
         # Grade II
         elif lac == "1-3 cm" and subscap_hematoma == "10-50%" and intraparenchymal_hemorrhage == "Less than 10 cm":
