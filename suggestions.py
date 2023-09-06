@@ -6,7 +6,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Load secret JSON key for Google Sheets authentication
-json_key = st.secrets["my_secrets"]["json_key"]
+json_key = st.secrets["my_secrets"]
 
 # Function to set up the Google Sheets connection
 def setup_gspread():
