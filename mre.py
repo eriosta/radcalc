@@ -6,6 +6,7 @@ import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import random
+import altair as alt
 
 # Define parameters for each MR type
 params = {
@@ -37,28 +38,43 @@ def step_completed(func):
 def calculate_iron(T_value, R2_star):
     return round(params[T_value]['intercept'] + params[T_value]['slope'] * R2_star,1)
 
-# Plot LIC with confidence intervals
+# Assuming params dictionary and other necessary variables are defined earlier in your script
+
+# Plot LIC with confidence intervals using Streamlit's built-in charts
 def plot_LIC(T_value, R2_value, LIC):
     x = np.linspace(0, max(100, R2_value+10), 100)
     y = params[T_value]['intercept'] + params[T_value]['slope'] * x
     y_lower = params[T_value]['conf_intercept'][0] + params[T_value]['conf_slope'][0] * x
     y_upper = params[T_value]['conf_intercept'][1] + params[T_value]['conf_slope'][1] * x
-
-    plt.figure(figsize=(10,6))
-    plt.plot(x, y, label='Regression Line', color='blue')
-    plt.fill_between(x, y_lower, y_upper, color='blue', alpha=0.1, label='Confidence Interval')
-    plt.scatter(R2_value, LIC, color='red', label='Input R2* Value')
-    plt.xlabel('R2* (/s)')
-    plt.ylabel('LIC (mg/g)')
-    plt.title(f'LIC Visualization for {T_value}')
     
-    # Annotating the formula/line of best fit on the top left
-    formula_text = f"LIC = {params[T_value]['intercept']:.2f} + {params[T_value]['slope']:.4f} * R2*"
-    plt.annotate(formula_text, (0.05, 0.95), xycoords='axes fraction', fontsize=10, verticalalignment='top', bbox=dict(boxstyle="square,pad=0.3", facecolor="white", edgecolor="black"))
+    # Prepare data in a dataframe
+    df = pd.DataFrame({
+        'x': x,
+        'y': y,
+        'y_lower': y_lower,
+        'y_upper': y_upper
+    })
 
-    plt.legend()
-    plt.grid(True)
-    st.pyplot(plt.gcf())
+    # Create the Altair chart
+    base = alt.Chart(df).encode(x='x')
+
+    line = base.mark_line(color='blue').encode(y='y')
+    band = base.mark_area(opacity=0.1, color='blue').encode(y='y_lower', y2='y_upper')
+    point = alt.Chart(pd.DataFrame({'x': [R2_value], 'y': [LIC]})).mark_circle(color='red', size=100).encode(x='x', y='y')
+
+    # Combine the charts
+    chart = (line + band + point).properties(
+        width=600,
+        height=400,
+        title=f'LIC Visualization for {T_value}'
+    ).interactive()
+
+    # Display the chart in Streamlit
+    st.altair_chart(chart)
+
+    # Displaying the formula
+    formula_text = f"LIC = {params[T_value]['intercept']:.2f} + {params[T_value]['slope']:.4f} * R2*"
+    st.write(formula_text)
 
 @step_completed
 def iron_grading(Y):
