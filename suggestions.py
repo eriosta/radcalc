@@ -5,8 +5,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Initialize session state
-st.session_state.setdefault('num1', random.randint(1, 10))
-st.session_state.setdefault('num2', random.randint(1, 10))
+st.session_state['num1'] = st.session_state.get('num1', random.randint(1, 10))
+st.session_state['num2'] = st.session_state.get('num2', random.randint(1, 10))
 
 # Load secret JSON key for Google Sheets authentication
 json_key = {
@@ -45,17 +45,17 @@ def user_suggestions():
         email = st.text_input(label='Enter your email', value='', key='email')
         message = st.text_area(label='Enter your message', value='', key='message')
         category = st.selectbox('Select a category', ['','Error', 'New Request', 'Suggestion', 'Inquiry', 'Other'])
-        st.write(f"Please solve this simple math problem to verify you're not a bot: {st.session_state.num1} + {st.session_state.num2}")
+        st.write(f"Please solve this simple math problem to verify you're not a bot: {st.session_state['num1']} + {st.session_state['num2']}")
         user_answer = st.number_input(label='Your answer to the math problem:', step=1, format="%d")
         submit_button = st.form_submit_button(label='Submit')
         if submit_button:
-            correct_answer = st.session_state.num1 + st.session_state.num2
+            correct_answer = st.session_state['num1'] + st.session_state['num2']
             if int(user_answer) == correct_answer:
                 worksheet = setup_gspread()
                 append_to_sheet(worksheet, name, email, message, category)
                 st.success("Your message has been sent!")
                 # Reset the numbers so that new ones will be generated for the next time
-                st.session_state.num1 = random.randint(1, 10)
-                st.session_state.num2 = random.randint(1, 10)
+                st.session_state['num1'] = random.randint(1, 10)
+                st.session_state['num2'] = random.randint(1, 10)
             else:
                 st.error(f"Incorrect! The correct answer is {correct_answer}. Please verify you are a human!")
