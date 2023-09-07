@@ -49,13 +49,16 @@ def user_suggestions():
         user_answer = st.number_input(label='Your answer to the math problem:', step=1, format="%d")
         submit_button = st.form_submit_button(label='Submit')
         if submit_button:
-            correct_answer = st.session_state['num1'] + st.session_state['num2']
-            if int(user_answer) == correct_answer:
-                worksheet = setup_gspread()
-                append_to_sheet(worksheet, name, email, message, category)
-                st.success("Your message has been sent!")
-                # Reset the numbers so that new ones will be generated for the next time
-                st.session_state['num1'] = random.randint(1, 10)
-                st.session_state['num2'] = random.randint(1, 10)
+            if name and email and message and category and user_answer:
+                correct_answer = st.session_state['num1'] + st.session_state['num2']
+                if int(user_answer) == correct_answer:
+                    worksheet = setup_gspread()
+                    append_to_sheet(worksheet, name, email, message, category)
+                    st.success("Your message has been sent!")
+                    # Reset the numbers so that new ones will be generated for the next time
+                    st.session_state['num1'] = random.randint(1, 10)
+                    st.session_state['num2'] = random.randint(1, 10)
+                else:
+                    st.error(f"Incorrect! The correct answer is {correct_answer}. Please verify you are a human!")
             else:
-                st.error(f"Incorrect! The correct answer is {correct_answer}. Please verify you are a human!")
+                st.error("All fields are required. Please fill out all fields.")
