@@ -139,7 +139,7 @@ def run():
     # Calculate FSM
     if nav_selection == 'Step 1: Calculate LSM':
         st.header('Calculate LSM')
-        
+
         # Let the user choose the number of ROIs
         num_rois = st.selectbox('Select the number of ROIs:', [1, 2, 3, 4], index=3)  # Default is 4 ROIs
 
@@ -173,7 +173,7 @@ def run():
             grade = fat_grading(percentage)
             st.session_state['steatosis_percentage'] = percentage
             st.session_state['steatosis_grade'] = grade
-            st.write(grade)
+            st.info(grade)
 
     # Calculate LIC
     elif nav_selection == 'Step 3: Calculate LIC':
@@ -189,7 +189,7 @@ def run():
             st.session_state['LIC'] = Y
             st.session_state['iron_grade'] = iron_grading(Y)
             st.write(f"LIC: {Y:.2f} mg/g")
-            st.write(iron_grading(Y))
+            st.info(iron_grading(Y))
             st.write(f"R^2 for {T_value}: {params[T_value]['r2']}")
             plot_LIC(T_value, X, Y)
 
