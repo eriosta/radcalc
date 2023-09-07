@@ -9,7 +9,7 @@ def main():
     st.sidebar.title("RADCalc")
 
     # Use radio to go to a page
-    page = st.sidebar.radio("Go to", ["Home", "Body", "MSK"])
+    page = st.sidebar.radio("Go to", ["Home", "Body", "Chest", "MSK", "Neuro", "Pediatric"])
 
     if page == "Home":
         st.subheader("Welcome to RADCalc!")
@@ -40,6 +40,16 @@ def main():
         choice = st.sidebar.radio("Choose the calculation", ["Glenoid Track Assessment"])
         if choice == "Glenoid Track Assessment":
             glenoid.run()
+    
+    elif page == "Chest":
+        st.info("Coming Soon")
+
+    elif page == "Neuro":
+        st.info("Coming Soon")
+        
+    elif page == "Pediatric":
+        st.info("Coming Soon")
 
 if __name__ == "__main__":
     main()
+
