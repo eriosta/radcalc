@@ -4,11 +4,9 @@ import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-# Set up session state
-if 'num1' not in st.session_state:
-    st.session_state.num1 = random.randint(1, 10)
-if 'num2' not in st.session_state:
-    st.session_state.num2 = random.randint(1, 10)
+# Initialize session state
+st.session_state.setdefault('num1', random.randint(1, 10))
+st.session_state.setdefault('num2', random.randint(1, 10))
 
 # Load secret JSON key for Google Sheets authentication
 json_key = {
@@ -57,7 +55,7 @@ def user_suggestions():
                 append_to_sheet(worksheet, name, email, message, category)
                 st.success("Your message has been sent!")
                 # Reset the numbers so that new ones will be generated for the next time
-                del st.session_state.num1
-                del st.session_state.num2
+                st.session_state.num1 = random.randint(1, 10)
+                st.session_state.num2 = random.randint(1, 10)
             else:
                 st.error(f"Incorrect! The correct answer is {correct_answer}. Please verify you are a human!")
