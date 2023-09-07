@@ -141,8 +141,11 @@ def run():
         st.header('Calculate LSM')
         col1, col2 = st.columns(2)  # Assuming you're using a version of Streamlit that supports st.columns. If not, use st.beta_columns.
         
-        m_values = [col1.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, 5)]
-        a_values = [col2.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, 5)]
+        # Let the user choose the number of ROIs
+        num_rois = st.selectbox('Select the number of ROIs:', [1, 2, 3, 4], index=3)  # Default is 4 ROIs
+        
+        m_values = [col1.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, num_rois + 1)]
+        a_values = [col2.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, num_rois + 1)]
         
         if st.button('Calculate LSM'):
             if all(a != 0 for a in a_values):
@@ -154,14 +157,12 @@ def run():
                 st.session_state['fsm_grade'] = fsm_grading(fsm)  # Saving the grade to the session state.
 
                 fsm_display = f"LSM: {fsm} kPa"
+                result_message = f"{fsm_display} corresponds to {st.session_state['fsm_grade']}"
 
-                st.markdown(f"""
-        <div style="background-color: #f0f0f5; padding: 10px; border-radius: 5px; border: 1px solid gray;">
-            <h4 style="color: black; text-align: center;">{fsm_display} corresponds to {st.session_state['fsm_grade']}</h4>
-        </div>
-        """, unsafe_allow_html=True)
+                st.info(result_message)
             else:
                 st.error("All ROI areas must be non-zero!")
+
 
     # Determine Steatosis Grade
     elif nav_selection == 'Step 2: Determine Steatosis Grade':
