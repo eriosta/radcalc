@@ -44,26 +44,12 @@ def user_suggestions():
     with st.form(key='my_form'):
         st.write("Please fill out this form:")
         name = st.text_input(label='Enter your name', value='', key='name')
-        if name == '':
-            st.warning('Please enter your name.')
-
         email = st.text_input(label='Enter your email', value='', key='email')
-        if email == '':
-            st.warning('Please enter your email.')
-
         message = st.text_area(label='Enter your message', value='', key='message')
-        if message == '':
-            st.warning('Please enter your message.')
-
         category = st.selectbox('Select a category', ['','Error', 'New Request', 'Suggestion', 'Inquiry', 'Other'])
-        if category == '':
-            st.warning('Please select a category.')
-
         st.write(f"Please solve this simple math problem to verify you're not a bot: {st.session_state.num1} + {st.session_state.num2}")
         user_answer = st.number_input(label='Your answer to the math problem:', step=1, format="%d")
-
         submit_button = st.form_submit_button(label='Submit')
-        
         if submit_button:
             correct_answer = st.session_state.num1 + st.session_state.num2
             if int(user_answer) == correct_answer:
