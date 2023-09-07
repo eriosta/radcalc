@@ -52,7 +52,7 @@ def user_suggestions():
         
         if name == '' or email == '' or message == '' or category == '' or user_answer == '':
             st.warning('Please fill all the fields.')
-            submit_button = st.form_submit_button(label='Submit', on_click=None, enabled=False)
+            submit_button = st.form_submit_button(label='Submit', on_click=None, disabled=True)
         else:
             submit_button = st.form_submit_button(label='Submit')
         
