@@ -40,6 +40,13 @@ def calculate_iron(T_value, R2_star):
 
 # Assuming params dictionary and other necessary variables are defined earlier in your script
 
+import streamlit as st
+import pandas as pd
+import altair as alt
+import numpy as np
+
+# Assuming params dictionary and other necessary variables are defined earlier in your script
+
 # Plot LIC with confidence intervals using Streamlit's built-in charts
 def plot_LIC(T_value, R2_value, LIC):
     x = np.linspace(0, max(100, R2_value+10), 100)
@@ -56,7 +63,10 @@ def plot_LIC(T_value, R2_value, LIC):
     })
 
     # Create the Altair chart
-    base = alt.Chart(df).encode(x='x')
+    base = alt.Chart(df).encode(
+        x=alt.X('x', title='R2* (/s)'),
+        y=alt.Y('y', title='LIC (mg/g)')
+    )
 
     line = base.mark_line(color='blue').encode(y='y')
     band = base.mark_area(opacity=0.1, color='blue').encode(y='y_lower', y2='y_upper')
@@ -75,6 +85,7 @@ def plot_LIC(T_value, R2_value, LIC):
     # Displaying the formula
     formula_text = f"LIC = {params[T_value]['intercept']:.2f} + {params[T_value]['slope']:.4f} * R2*"
     st.write(formula_text)
+
 
 @step_completed
 def iron_grading(Y):
