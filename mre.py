@@ -139,11 +139,12 @@ def run():
     # Calculate FSM
     if nav_selection == 'Step 1: Calculate LSM':
         st.header('Calculate LSM')
-        col1, col2 = st.columns(2)  # Assuming you're using a version of Streamlit that supports st.columns. If not, use st.beta_columns.
         
         # Let the user choose the number of ROIs
         num_rois = st.selectbox('Select the number of ROIs:', [1, 2, 3, 4], index=3)  # Default is 4 ROIs
-        
+
+        col1, col2 = st.columns(2)  # Assuming you're using a version of Streamlit that supports st.columns. If not, use st.beta_columns.
+               
         m_values = [col1.number_input(f'Enter ROI{i} LSM:', value=0.0) for i in range(1, num_rois + 1)]
         a_values = [col2.number_input(f'Enter ROI{i} area:', value=0.0) for i in range(1, num_rois + 1)]
         
