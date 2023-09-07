@@ -55,7 +55,7 @@ def user_suggestions():
             if int(user_answer) == correct_answer:
                 worksheet = setup_gspread()
                 append_to_sheet(worksheet, name, email, message, category)
-                st.success("Your calculator request has been sent!")
+                st.success("Your message has been sent!")
                 # Reset the numbers so that new ones will be generated for the next time
                 del st.session_state.num1
                 del st.session_state.num2
