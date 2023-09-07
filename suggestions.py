@@ -33,8 +33,8 @@ def setup_gspread():
     return worksheet
 
 # Function to append data to the Google Sheet
-def append_to_sheet(worksheet, name, email, message):
-    worksheet.append_row([name, email, message])
+def append_to_sheet(worksheet, name, email, message, category):
+    worksheet.append_row([name, email, message, category])
 
 def generate_random_string(length=5):
     letters = string.digits  # Use all lowercase letters and digits
