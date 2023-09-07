@@ -38,7 +38,7 @@ def user_suggestions():
     # Generate a simple math question for user to solve
     num1 = random.randint(1, 10)
     num2 = random.randint(1, 10)
-    correct_answer = num1 + num2
+    st.write(f"Please solve this simple math problem to verify you're not a bot: {num1} + {num2}")
 
     with st.form(key='my_form'):
         st.write("Please fill out this form:")
@@ -46,16 +46,14 @@ def user_suggestions():
         email = st.text_input(label='Enter your email')
         message = st.text_area(label='Enter your message')
         
-        # Display math question on Streamlit
-        # st.write(f"Please solve this simple math problem to verify you're not a bot: {num1} + {num2}")
-        # user_answer = st.number_input(label='Enter your answer')
+        user_answer = st.number_input(label='Your answer to the math problem:', step=1, format="%d")
         submit_button = st.form_submit_button(label='Submit')
         
         if submit_button:
-            # if user_answer == correct_answer:
-            worksheet = setup_gspread()
-            append_to_sheet(worksheet, name, email, message)
-            st.success("Your calculator request has been sent!")
-            # else:
-            #     st.error("Please verify you are a human!")
-
+            correct_answer = num1 + num2
+            if int(user_answer) == correct_answer:
+                worksheet = setup_gspread()
+                append_to_sheet(worksheet, name, email, message)
+                st.success("Your calculator request has been sent!")
+            else:
+                st.error(f"Incorrect! The correct answer is {correct_answer}. Please verify you are a human!")
