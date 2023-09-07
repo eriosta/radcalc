@@ -43,19 +43,35 @@ def generate_random_string(length=5):
 def user_suggestions():
     with st.form(key='my_form'):
         st.write("Please fill out this form:")
-        name = st.text_input(label='Enter your name')
-        email = st.text_input(label='Enter your email')
-        message = st.text_area(label='Enter your message')
-        
+        name = st.text_input(label='Enter your name', value='', key='name')
+        if name == '':
+            st.warning('Please enter your name.')
+            st.stop()
+        email = st.text_input(label='Enter your email', value='', key='email')
+        if email == '':
+            st.warning('Please enter your email.')
+            st.stop()
+        message = st.text_area(label='Enter your message', value='', key='message')
+        if message == '':
+            st.warning('Please enter your message.')
+            st.stop()
+        category = st.selectbox('Select a category', ['','Error', 'New Request', 'Suggestion', 'Inquiry', 'Other'])
+        if category == '':
+            st.warning('Please select a category.')
+            st.stop()
+
         st.write(f"Please solve this simple math problem to verify you're not a bot: {st.session_state.num1} + {st.session_state.num2}")
         user_answer = st.number_input(label='Your answer to the math problem:', step=1, format="%d")
+        if user_answer == '':
+            st.warning('Please solve the math problem to verify you are not a bot.')
+            st.stop()
         submit_button = st.form_submit_button(label='Submit')
         
         if submit_button:
             correct_answer = st.session_state.num1 + st.session_state.num2
             if int(user_answer) == correct_answer:
                 worksheet = setup_gspread()
-                append_to_sheet(worksheet, name, email, message)
+                append_to_sheet(worksheet, name, email, message, category)
                 st.success("Your calculator request has been sent!")
                 # Reset the numbers so that new ones will be generated for the next time
                 del st.session_state.num1
