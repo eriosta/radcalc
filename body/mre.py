@@ -147,10 +147,10 @@ def run():
     st.title('MRE')
 
     # Add 'Home' to the navigation options
-    nav_selection = st.sidebar.radio('MRE', ['Home', 'Step 1: Calculate LSM', 'Step 2: Determine Steatosis Grade', 'Step 3: Calculate LIC', 'Generate Report', 'References'])
+    nav_selection = st.sidebar.radio('MRE', ['Start Here', 'Step 1: Calculate LSM', 'Step 2: Determine Steatosis Grade', 'Step 3: Calculate LIC', 'Generate Report', 'References'])
 
     # Home Page
-    if nav_selection == 'Home':
+    if nav_selection == 'Start Here':
         st.header('MR Liver Elastography Calculator')
         st.write("""
         This calculator helps with:

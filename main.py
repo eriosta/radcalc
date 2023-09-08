@@ -1,8 +1,7 @@
 import streamlit as st
-import mre
-import glenoid
-import abdominal_trauma
-from suggestions import user_suggestions
+from body import mre, abdominal_trauma
+from msk import glenoid
+from utils.suggestions import user_suggestions
 
 def main():
     st.set_page_config(page_title='RADCalc', page_icon=':skull:')
@@ -30,14 +29,14 @@ def main():
             user_suggestions()
     
     elif page == "Body":
-        choice = st.sidebar.radio("Choose the calculation", ["MR Liver Elastography", "Grading Abdominal Trauma"])
+        choice = st.sidebar.radio("", ["Body","MR Liver Elastography", "Grading Abdominal Trauma"])
         if choice == "MR Liver Elastography":
             mre.run()
         elif choice == "Grading Abdominal Trauma":
             abdominal_trauma.run()
 
     elif page == "MSK":
-        choice = st.sidebar.radio("Choose the calculation", ["Glenoid Track Assessment"])
+        choice = st.sidebar.radio("", ["MSK","Glenoid Track Assessment"])
         if choice == "Glenoid Track Assessment":
             glenoid.run()
     

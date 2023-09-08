@@ -47,8 +47,8 @@ def run():
     st.title("Glenoid Track Assessment")
 
     # Add 'Home' to the navigation options
-    nav_selection = st.sidebar.radio('Glenoid Track Assessment', ['Home', 'Step 1: Identify bipolar bone lesions', 'Step 2: Calculate GTW', 'Step 3: Measure HSI', 'Step 4: Determine tracking status of HSL', 'Generate Report'])
-    if nav_selection == 'Home':
+    nav_selection = st.sidebar.radio('Glenoid Track Assessment', ['Start Here', 'Step 1: Identify bipolar bone lesions', 'Step 2: Calculate GTW', 'Step 3: Measure HSI', 'Step 4: Determine tracking status of HSL', 'Generate Report'])
+    if nav_selection == 'Start Here':
         st.write("### Objectives")
         st.write("""1. Guided Assessment of Anterior Shoulder Dislocation: The app provides a systematic and simplified step-by-step approach to identify bipolar bone lesions, calculate the Glenoid Track Width (GTW), and measure the Humeral Side Injury (HSI) as shown in Aydıngöz, et al. 2023. Radiographics.\n\n2. Determination and Reporting of HSL Tracking Status: Through user input and subsequent calculations, the app determines the tracking status of the Hill-Sachs lesion (HSL) as either "on track" or "off track," generating a brief radiology report that can be downloaded for documentation and sharing.""")
     elif nav_selection == 'Step 1: Identify bipolar bone lesions':
