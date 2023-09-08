@@ -29,16 +29,14 @@ def main():
             user_suggestions()
     
     elif page == "Body":
-        st.info("Go to sidebar to start.")
-        choice = st.sidebar.radio("", ["Body","MR Liver Elastography", "Grading Abdominal Trauma"])
+        choice = st.sidebar.radio("", ["MR Liver Elastography", "Grading Abdominal Trauma"])
         if choice == "MR Liver Elastography":
             mre.run()
         elif choice == "Grading Abdominal Trauma":
             abdominal_trauma.run()
 
     elif page == "MSK":
-        st.info("Go to sidebar to start.")
-        choice = st.sidebar.radio("", ["MSK","Glenoid Track Assessment"])
+        choice = st.sidebar.radio("", ["Glenoid Track Assessment"])
         if choice == "Glenoid Track Assessment":
             glenoid.run()
     
