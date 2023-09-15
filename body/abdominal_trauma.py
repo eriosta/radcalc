@@ -10,7 +10,7 @@ def spleen_grading():
         devascularization = st.radio("Devascularization", ["25-75%", "None"], key="devascularization")
         vascular_injury = st.radio("AVF, pseudoaneurysm, vascular injury", ["Present", "Absent"], key="vascular_injury")
         active_bleeding = st.radio("Active bleeding", ["Confined active parenchymal active bleeding", "Active bleeding extending to peritoneum", "None of these"], key="active_bleeding")
-        shattered_spleen = st.radio("Shattered spleen", ["Present", "Absent"], key="shattered_spleen")
+        shattered_spleen = st.radio("Shattered spleen", ["Absent", "Present"], key="shattered_spleen")
 
         # Check for Grade V criteria first
         if active_bleeding == "Active bleeding extending to peritoneum" or shattered_spleen == "Present":
@@ -69,7 +69,7 @@ def liver_grading():
         intraparenchymal_hemorrhage = st.radio("Intraparenchymal hemorrhage", ["Less than 10 cm", "Greater than 10 cm","Ruptured"], key="intraparenchymal_hemorrhage")
         lobar_parenchymal_disruption = st.radio("Lobar parenchymal disruption", ["None","25-75%", "Greater than 75%"], key="lobar_parenchymal_disruption")
         active_bleeding = st.radio("Active bleeding", ["Confined to liver", "Extending to peritoneum"], key="active_bleeding_liver")
-        venous_injury = st.radio("Venous injury (IVC/major hepatic veins)", ["Present", "Absent"], key="venous_injury")
+        venous_injury = st.radio("Venous injury (IVC/major hepatic veins)", ["Absent", "Present"], key="venous_injury")
 
         # Grade V
         if lobar_parenchymal_disruption == "Greater than 75%" or venous_injury == "Present":
